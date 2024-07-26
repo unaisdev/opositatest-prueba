@@ -1,79 +1,41 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Prueba Técnica para OpositaTest
 
-# Getting Started
+¡Bienvenido/a a la prueba técnica de OpositaTest!
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Objetivo
 
-## Step 1: Start the Metro Server
+El objetivo de esta prueba es evaluar tus habilidades en React Native y tu capacidad para optimizar y mejorar código existente. Se espera que proporciones sugerencias para mejorar el rendimiento, la estructura y la mantenibilidad del código. Además, es crucial que la aplicación sea compatible con versiones de Android 6 (Marshmallow) o superiores y versiones de iOS. El código proporcionado implementa una aplicación básica de visualización de libros, y tendrás que identificar áreas de mejora y aplicar tus conocimientos para optimizarlo.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Instrucciones
 
-To start Metro, run the following command from the _root_ of your React Native project:
+1. **Revisión del Código:**
 
-```bash
-# using npm
-npm start
+   - Analiza el código proporcionado a continuación.
+   - Identifica áreas que podrían mejorarse, ya sea en términos de rendimiento, estructura del código o buenas prácticas de desarrollo.
 
-# OR using Yarn
-yarn start
-```
+2. **Mejoras Sugeridas:**
 
-## Step 2: Start your Application
+   - Propón mejoras específicas para optimizar el rendimiento, la legibilidad y la mantenibilidad del código.
+   - Implementa al menos una mejora significativa en el código.
+   - Asegúrate de que la aplicación funcione correctamente en dispositivos con Android 6 (Marshmallow) y versiones superiores, así como en iOS 11 y versiones superiores.
+   - Se valorara positivamente el uso de alguna micro-animación.
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+3. **Compatibilidad con Android e iOS:**
 
-### For Android
+   - Verifica que la aplicación sea compatible con Android 6 (Marshmallow) y versiones superiores.
+   - Asegúrate de que la aplicación sea compatible con iOS 11 y versiones superiores.
+   - Ajusta el código según las limitaciones de las versiones mencionadas para garantizar una funcionalidad óptima en ambos sistemas operativos.
 
-```bash
-# using npm
-npm run android
+4. **Pruebas y Validación:**
 
-# OR using Yarn
-yarn android
-```
+   - Ejecuta pruebas unitarias para asegurar que las funcionalidades modificadas o agregadas funcionan correctamente.
+   - Verifica que no se hayan introducido errores o problemas de rendimiento en la aplicación.
+   - Documenta los pasos para ejecutar las pruebas y valida la compatibilidad con las versiones especificadas de Android e iOS.
 
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+5. **Entrega:**
+   - Sube tus cambios a un repositorio en GitHub.
+   - Incluye un archivo `README.md` en el repositorio que explique las mejoras realizadas y cómo implementarlas.
+   - El código deberá de al menos incluir algún tipo de test.
+   - Asegúrate de que las pruebas sean ejecutables en un entorno Android 6 o superior y en iOS 11 o superior.
+   - Entrega al menos un binario de alguna de las plataformas (Android `.apk` o iOS `.ipa`).
+   - Incluye instrucciones para la instalación y ejecución de la aplicación en el `README.md`.

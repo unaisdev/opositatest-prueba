@@ -1,117 +1,247 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
   View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+  SafeAreaView,
+  Linking,
+  ScrollView,
 } from 'react-native';
+import lodash from 'lodash';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  const [books, setBooks] = useState<[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [recentBooks, setRecentBooks] = useState<Set<string>>(new Set());
+  const [selectedBook, setSelectedBook] = useState(null);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  useEffect(() => {
+    fetchBooks();
+  }, []);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  const fetchBooks = async () => {
+    setLoading(true);
+    try {
+      console.log('Fetching books');
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+      const response = await fetch('https://anapioficeandfire.com/api/books');
+      const data = await response.json();
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+      setBooks(data);
+      setError(null);
+    } catch (error) {
+      setError('Error fetching books');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+  const booksData = () => {
+    return lodash.filter(books, book =>
+      lodash.includes(lodash.toLower(book.name), lodash.toLower(searchQuery)),
+    );
+  };
+
+  const handleBookPress = (book: Book) => {
+    setSelectedBook(book);
+    setRecentBooks(prev => new Set(prev).add(book.url));
+  };
+
+  const handleFavoritePress = (book: Book) => {
+    setFavorites(prev => {
+      const newFavorites = new Set(prev);
+      if (newFavorites.has(book.url)) {
+        newFavorites.delete(book.url);
+      } else {
+        newFavorites.add(book.url);
+      }
+      return newFavorites;
+    });
+  };
+
+  const renderBookItem = ({item}: {item: Book}) => (
+    <TouchableOpacity
+      onPress={() => handleBookPress(item)}
+      style={styles.bookItem}>
+      <Image
+        source={{
+          uri: `https://covers.openlibrary.org/b/isbn/${item.isbn}-M.jpg`,
+        }}
+        style={styles.bookImage}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
+      <Text style={styles.bookTitle}>{item.name}</Text>
+      {favorites.has(item.url) && <Text style={styles.favoriteIcon}>★</Text>}
+    </TouchableOpacity>
+  );
+
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <ScrollView style={styles.container}>
+        <TextInput
+          placeholder="Buscar"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={styles.searchInput}
+        />
+        <TouchableOpacity onPress={fetchBooks} style={styles.searchButton}>
+          <Text>Actualizar libros</Text>
+        </TouchableOpacity>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : error ? (
+          <Text style={styles.errorText}>{error}</Text>
+        ) : (
+          booksData().map((book, index) => {
+            return (
+              <View>
+                {index === 0 && (
+                  <View>
+                    <Text style={styles.sectionTotal}>
+                      Libros: {booksData().length}
+                    </Text>
+                    {recentBooks.size > 0 && (
+                      <View>
+                        <Text style={styles.sectionHeader}>Recientes</Text>
+                        {Array.from(recentBooks).map(url => {
+                          const book = books.find(book => book.url === url);
+                          return book ? renderBookItem({item: book}) : null;
+                        })}
+                        <Text style={styles.sectionHeader}>Libros</Text>
+                      </View>
+                    )}
+                  </View>
+                )}
+                {renderBookItem({item: book})}
+              </View>
+            );
+          })
+        )}
+        {selectedBook && (
+          <View style={styles.bookDetail}>
+            <Text style={styles.bookDetailTitle}>{selectedBook.name}</Text>
+            <Text>Autor: {selectedBook.authors.join(', ')}</Text>
+            <Text>Editorial: {selectedBook.publisher}</Text>
+            <Text>Número de páginas: {selectedBook.numberOfPages}</Text>
+            <Text>Año de publicación: {selectedBook.released}</Text>
+            <TouchableOpacity
+              onPress={() => handleFavoritePress(selectedBook)}
+              style={styles.favoriteButton}>
+              <Text>
+                {favorites.has(selectedBook.url)
+                  ? 'Quitar de favoritos'
+                  : 'Agregar a favoritos'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setSelectedBook(null)}
+              style={styles.closeButton}>
+              <Text>Cerrar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.canOpenURL(selectedBook.url).then(() => {
+                  Linking.openURL(selectedBook.url);
+                });
+              }}
+              style={styles.urlButton}>
+              <Text>Abrir API en el navegador</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
+// Estilos
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  searchInput: {
+    borderColor: '#ddd',
+    borderWidth: 1,
+    padding: 8,
+    marginBottom: 8,
   },
-  sectionDescription: {
-    marginTop: 8,
+  searchButton: {
+    backgroundColor: 'transparent',
+    padding: 10,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+  },
+  bookItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  bookImage: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+  },
+  bookTitle: {
+    fontSize: 16,
+  },
+  favoriteIcon: {
+    marginLeft: 'auto',
+    color: 'gold',
+  },
+  sectionHeader: {
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
-  highlight: {
-    fontWeight: '700',
+  sectionTotal: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  bookDetail: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#fff',
+    padding: 16,
+  },
+  bookDetailTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  favoriteButton: {
+    backgroundColor: '#007bff',
+    padding: 10,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  closeButton: {
+    backgroundColor: '#ccc',
+    padding: 10,
+    alignItems: 'center',
+  },
+  urlButton: {
+    backgroundColor: '#02874a',
+    padding: 10,
+    alignItems: 'center',
+    marginTop: 10,
   },
 });
 
