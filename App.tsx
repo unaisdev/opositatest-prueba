@@ -23,10 +23,11 @@ const App = () => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
-    fetchBooks();
+    initBooks();
   }, []);
 
-  const fetchBooks = async () => {
+  // Obtenemos los libros
+  const initBooks = async () => {
     setLoading(true);
     try {
       console.log('Fetching books');
@@ -49,12 +50,14 @@ const App = () => {
     );
   };
 
-  const handleBookPress = bk => {
+  // Presiona un libro
+  const handleBook = bk => {
     setSelectedBook(bk);
     setRecentBooks(prev => new Set(prev).add(bk.url));
   };
 
-  const handleFavoritePress = b => {
+  // Presiona el botón de favoritos
+  const handleFavorite = b => {
     setFavorites(prev => {
       const newFavorites = new Set(prev);
       if (newFavorites.has(b.url)) {
@@ -67,9 +70,7 @@ const App = () => {
   };
 
   const renderBookItem = ({item}) => (
-    <TouchableOpacity
-      onPress={() => handleBookPress(item)}
-      style={styles.bookItem}>
+    <TouchableOpacity onPress={() => handleBook(item)} style={styles.bookItem}>
       <Image
         source={{
           uri: `https://covers.openlibrary.org/b/isbn/${item.isbn}-M.jpg`,
@@ -90,7 +91,7 @@ const App = () => {
           onChangeText={setSearchQuery}
           style={styles.searchInput}
         />
-        <TouchableOpacity onPress={fetchBooks} style={styles.searchButton}>
+        <TouchableOpacity onPress={initBooks} style={styles.searchButton}>
           <Text>Actualizar libros</Text>
         </TouchableOpacity>
         {loading ? (
@@ -131,7 +132,7 @@ const App = () => {
             <Text>Número de páginas: {selectedBook.numberOfPages}</Text>
             <Text>Año de publicación: {selectedBook.released}</Text>
             <TouchableOpacity
-              onPress={() => handleFavoritePress(selectedBook)}
+              onPress={() => handleFavorite(selectedBook)}
               style={styles.favoriteButton}>
               <Text>
                 {favorites.has(selectedBook.url)
