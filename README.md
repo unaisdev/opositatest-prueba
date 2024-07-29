@@ -32,7 +32,11 @@ El objetivo de esta prueba es evaluar tus habilidades en React Native y tu capac
    - Verifica que no se hayan introducido errores o problemas de rendimiento en la aplicación.
    - Documenta los pasos para ejecutar las pruebas y validarla.
 
-5. **Entrega:**
+5. **Nuevas funcionabilidades (opcional)**
+
+- Ordenación Alfabética: Se valorará muy positivamente la implementación de una funcionalidad que permita ordenar los libros alfabéticamente y que esta ordenación persista incluso si se cierra la aplicación.
+
+6. **Entrega:**
    - Sube tus cambios a un repositorio en GitHub.
    - Incluye un archivo `README.md` en el repositorio que explique las mejoras realizadas.
    - Entrega al menos un binario de alguna de las plataformas (Android `.apk/.aab` o iOS `.ipa`).
