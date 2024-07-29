@@ -44,23 +44,23 @@ const App = () => {
   };
 
   const booksData = () => {
-    return lodash.filter(books, book =>
-      lodash.includes(lodash.toLower(book.name), lodash.toLower(searchQuery)),
+    return lodash.filter(books, b =>
+      lodash.includes(lodash.toLower(b.name), lodash.toLower(searchQuery)),
     );
   };
 
-  const handleBookPress = book => {
-    setSelectedBook(book);
-    setRecentBooks(prev => new Set(prev).add(book.url));
+  const handleBookPress = bk => {
+    setSelectedBook(bk);
+    setRecentBooks(prev => new Set(prev).add(bk.url));
   };
 
-  const handleFavoritePress = book => {
+  const handleFavoritePress = b => {
     setFavorites(prev => {
       const newFavorites = new Set(prev);
-      if (newFavorites.has(book.url)) {
-        newFavorites.delete(book.url);
+      if (newFavorites.has(b.url)) {
+        newFavorites.delete(b.url);
       } else {
-        newFavorites.add(book.url);
+        newFavorites.add(b.url);
       }
       return newFavorites;
     });
@@ -100,7 +100,7 @@ const App = () => {
         ) : (
           booksData().map((book, index) => {
             return (
-              <View>
+              <View key={book.publisher}>
                 {index === 0 && (
                   <View>
                     <Text style={styles.sectionTotal}>
