@@ -20,6 +20,7 @@ El objetivo de esta prueba es evaluar tus habilidades en React Native y tu capac
    - Asegúrate de que la aplicación funcione correctamente en las diferentes plataformas.
    - Se valorara positivamente el uso de alguna micro-animación.
    - El uso de tests.
+   - Se valorarán las buenas prácticas en los commits (atómicos, explicados, etc..)
 
 3. **Compatibilidad con Android e iOS:**
 
