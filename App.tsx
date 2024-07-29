@@ -49,12 +49,12 @@ const App = () => {
     );
   };
 
-  const handleBookPress = (book: Book) => {
+  const handleBookPress = book => {
     setSelectedBook(book);
     setRecentBooks(prev => new Set(prev).add(book.url));
   };
 
-  const handleFavoritePress = (book: Book) => {
+  const handleFavoritePress = book => {
     setFavorites(prev => {
       const newFavorites = new Set(prev);
       if (newFavorites.has(book.url)) {
@@ -66,7 +66,7 @@ const App = () => {
     });
   };
 
-  const renderBookItem = ({item}: {item: Book}) => (
+  const renderBookItem = ({item}) => (
     <TouchableOpacity
       onPress={() => handleBookPress(item)}
       style={styles.bookItem}>
