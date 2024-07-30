@@ -4,5 +4,11 @@ import {NavigationProps} from '../types';
 export function useAppNavigation() {
   const appNav = useNavigation<NavigationProps>();
 
-  return {navigation: appNav.navigation, route: appNav.route};
+  if (appNav === undefined) {
+    throw new Error(
+      "Couldn't find a navigation object. Is your component inside a screen in AppNavigator?",
+    );
+  }
+
+  return {appNav};
 }

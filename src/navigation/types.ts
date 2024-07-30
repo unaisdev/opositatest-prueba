@@ -1,4 +1,4 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Book} from '../types';
 
 export type RootStackParams = {
@@ -8,4 +8,4 @@ export type RootStackParams = {
   };
 };
 
-export type NavigationProps = NativeStackScreenProps<RootStackParams>;
+export type NavigationProps = NativeStackNavigationProp<RootStackParams>;
