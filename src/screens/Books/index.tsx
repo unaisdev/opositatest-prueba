@@ -1,6 +1,7 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import {
+  ActivityIndicator,
   FlatList,
   ListRenderItem,
   SafeAreaView,
@@ -10,47 +11,38 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {fetchBooks} from '../../services/fetchBooks';
+
 import {Book} from '../../types';
-import {useAppNavigation} from '../../navigation/hooks/useAppNavigation';
 import {BookItem} from './components/BookItem';
+
+import {useAppNavigation} from '../../navigation/hooks/useAppNavigation';
 import {useFavBooksStore} from '../../storage/favorites';
+import {useBooksFetch} from './hooks/useBooksFetch';
+import {useRecentBooksStore} from '../../storage/recents';
 
 const Books = () => {
-  const [books, setBooks] = useState<Book[]>([]);
+  const {
+    data: books,
+    error,
+    isLoading,
+    isRefetching,
+    refetch,
+  } = useBooksFetch();
+
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [recentBooks, setRecentBooks] = useState<Book[]>([]);
   const favorites = useFavBooksStore(state => state.favs);
+  const {recents, addRecent} = useRecentBooksStore();
 
   const {appNav} = useAppNavigation();
 
   console.log('render');
 
-  useEffect(() => {
-    const init = async () => {
-      const booksFetched = await fetchBooks();
-
-      if (!booksFetched) {
-        return;
-      }
-
-      setBooks(booksFetched);
-    };
-
-    init();
-  }, []);
-
   const handleTapBook = useCallback(
     (book: Book) => {
-      setRecentBooks(prev => {
-        const updatedRecents = prev.filter(item => item.isbn !== book.isbn);
-
-        return [book, ...updatedRecents];
-      });
-
+      addRecent(book);
       appNav.navigate('BookDetail', {book});
     },
-    [appNav],
+    [addRecent, appNav],
   );
 
   const renderItem: ListRenderItem<Book> = useCallback(
@@ -73,12 +65,12 @@ const Books = () => {
           onChangeText={setSearchQuery}
           style={styles.searchInput}
         />
-        <TouchableOpacity onPress={fetchBooks} style={styles.searchButton}>
+        <TouchableOpacity onPress={() => refetch()} style={styles.searchButton}>
           <Text>Actualizar libros</Text>
         </TouchableOpacity>
 
-        <Text>Total Libros: {books.length}</Text>
-        {recentBooks.length > 0 && !searchQuery && (
+        <Text>Total Libros: {books?.length}</Text>
+        {recents.length > 0 && !searchQuery && (
           <>
             <Text style={styles.sectionHeader}>Recientes</Text>
             <FlatList
@@ -89,14 +81,22 @@ const Books = () => {
 
               // That's why we disable the scroll on the FlatList
               scrollEnabled={false}
-              data={recentBooks}
+              data={recents}
               renderItem={renderItem}
             />
           </>
         )}
 
         <Text style={styles.sectionHeader}>Libros</Text>
-        <FlatList scrollEnabled={false} data={books} renderItem={renderItem} />
+        {error && <Text>Algo ha ocurrido al cargar los libros</Text>}
+        {isLoading || (isRefetching && <ActivityIndicator />)}
+        {books && (
+          <FlatList
+            scrollEnabled={false}
+            data={books}
+            renderItem={renderItem}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
