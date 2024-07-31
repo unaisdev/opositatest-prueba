@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Book} from '../../../types';
 
 export const BookItem = ({
@@ -18,8 +18,14 @@ export const BookItem = ({
     <TouchableOpacity
       onPress={() => onPress(book)}
       key={book.isbn}
-      style={styles.row}>
-      <Text>{book.name}</Text>
+      style={styles.bookItem}>
+      <Image
+        source={{
+          uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
+        }}
+        style={styles.bookImage}
+      />
+      <Text style={styles.bookTitle}>{book.name}</Text>
       {favorite && <Text style={[styles.favoriteIcon]}>★</Text>}
     </TouchableOpacity>
   );
@@ -27,12 +33,23 @@ export const BookItem = ({
 
 const createStyles = (fav: boolean) =>
   StyleSheet.create({
-    row: {
+    bookItem: {
       flexDirection: 'row',
-      justifyContent: 'center',
       alignItems: 'center',
+      padding: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ddd',
+    },
+    bookImage: {
+      width: 50,
+      height: 50,
+      marginRight: 10,
+    },
+    bookTitle: {
+      fontSize: 16,
     },
     favoriteIcon: {
+      marginLeft: 'auto',
       color: fav ? 'gold' : 'gray',
     },
   });
