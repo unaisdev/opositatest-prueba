@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 
 import {
   ActivityIndicator,
@@ -19,6 +19,7 @@ import {useAppNavigation} from '../../navigation/hooks/useAppNavigation';
 import {useFavBooksStore} from '../../storage/favorites';
 import {useBooksFetch} from './hooks/useBooksFetch';
 import {useRecentBooksStore} from '../../storage/recents';
+import {useDebounce} from '../../utils/useDebounce';
 
 const Books = () => {
   const {
@@ -30,6 +31,10 @@ const Books = () => {
   } = useBooksFetch();
 
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Apply debounce to searchQuery
+  const debouncedSearchQuery = useDebounce(searchQuery, 200);
+
   const favorites = useFavBooksStore(state => state.favs);
   const {recents, addRecent} = useRecentBooksStore();
 
@@ -56,9 +61,22 @@ const Books = () => {
     [favorites, handleTapBook],
   );
 
+  const filteredBooks = useMemo(() => {
+    if (!books) {
+      return [];
+    }
+
+    return books.filter(book => {
+      const bookName = book.name.toLowerCase().trim();
+      const query = debouncedSearchQuery.toLowerCase().trim();
+
+      return bookName.includes(query);
+    });
+  }, [books, debouncedSearchQuery]);
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TextInput
           placeholder="Buscar"
           value={searchQuery}
@@ -70,9 +88,9 @@ const Books = () => {
         </TouchableOpacity>
 
         <Text>Total Libros: {books?.length}</Text>
-        {recents.length > 0 && !searchQuery && (
+        {recents.length > 0 && (
           <>
-            <Text style={styles.sectionHeader}>Recientes</Text>
+            <Text style={styles.sectionHeader}>Recientes (max. 3)</Text>
             <FlatList
               // There is a warning from React Native that says:
               // VirtualizedLists should never be nested inside plain ScrollViews with the same orientation
@@ -90,12 +108,14 @@ const Books = () => {
         <Text style={styles.sectionHeader}>Libros</Text>
         {error && <Text>Algo ha ocurrido al cargar los libros</Text>}
         {isLoading || (isRefetching && <ActivityIndicator />)}
-        {books && (
+        {filteredBooks.length > 0 ? (
           <FlatList
             scrollEnabled={false}
-            data={books}
+            data={filteredBooks}
             renderItem={renderItem}
           />
+        ) : (
+          <Text>No hay libros que coincidan con la búsqueda</Text>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -105,8 +125,10 @@ const Books = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    padding: 16,
   },
   searchInput: {
     borderColor: '#ddd',
