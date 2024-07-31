@@ -6,7 +6,6 @@ import {
   ListRenderItem,
   SafeAreaView,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -21,8 +20,10 @@ import {useFavBooksStore} from '../../storage/favorites';
 import {useBooksFetch} from './hooks/useBooksFetch';
 import {useRecentBooksStore} from '../../storage/recents';
 import {useDebounce} from '../../utils/useDebounce';
-import {orderAlphabetical} from '../../utils/sorting';
+
 import {useSortingTypeStore} from '../../storage/sorting';
+import {filterAndSortBooks} from '../../utils/books';
+import {styles} from './styles';
 
 const Books = () => {
   const {
@@ -64,24 +65,15 @@ const Books = () => {
     [favorites, handleTapBook],
   );
 
-  const filteredAndSortedBooks = useMemo(() => {
-    if (!books) {
-      return [];
-    }
-
-    const filtered = books.filter(book => {
-      const bookName = book.name.toLowerCase().trim();
-      const query = debouncedSearchQuery.toLowerCase().trim();
-
-      return bookName.includes(query);
-    });
-
-    if (sortingType === SortingEnum.ALPHABETICAL) {
-      return orderAlphabetical(filtered, sortingType);
-    }
-
-    return filtered;
-  }, [books, debouncedSearchQuery, sortingType]);
+  const filteredAndSortedBooks = useMemo(
+    () =>
+      filterAndSortBooks({
+        books,
+        filter: debouncedSearchQuery,
+        sort: sortingType,
+      }),
+    [books, debouncedSearchQuery, sortingType],
+  );
 
   const toggleSorting = useCallback(() => {
     if (sortingType === SortingEnum.DEFAULT) {
@@ -147,41 +139,5 @@ const Books = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  scrollContainer: {
-    padding: 16,
-  },
-  searchInput: {
-    borderColor: '#ddd',
-    borderWidth: 1,
-    padding: 8,
-    marginBottom: 8,
-  },
-  searchButton: {
-    backgroundColor: 'transparent',
-    padding: 10,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  sectionHeader: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  sectionHeaderOrder: {
-    marginLeft: 'auto',
-    fontSize: 10,
-  },
-});
 
 export default Books;
