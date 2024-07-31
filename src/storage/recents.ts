@@ -11,8 +11,17 @@ export const useRecentBooksStore = create<RecentBooksState>((set, get) => ({
   addRecent: book => {
     const recentBooks = get().recents;
 
-    const updatedRecents = recentBooks.filter(item => item.isbn !== book.isbn);
+    // Check if the book to be added is the same as the last book in the list
+    if (recentBooks.length > 0 && recentBooks[0].isbn === book.isbn) {
+      return; // Don't add the book if it's the same as the last one
+    }
 
-    set({recents: [book, ...updatedRecents]});
+    // Filter out the book if it already exists in the list
+    // const updatedRecents = recentBooks.filter(item => item.isbn !== book.isbn);
+
+    // We must limit the recents list for proper list display to the user
+    const limitedRecents = recentBooks.slice(0, 2);
+
+    set({recents: [book, ...limitedRecents]});
   },
 }));
