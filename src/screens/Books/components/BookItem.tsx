@@ -7,12 +7,10 @@ export const BookItem = ({
   book,
   favorite,
   onPress,
-  onToggleFav,
 }: {
   book: Book;
   favorite: boolean;
   onPress: (book: Book) => void;
-  onToggleFav: (book: Book) => void;
 }) => {
   const styles = createStyles(favorite);
 
@@ -22,9 +20,7 @@ export const BookItem = ({
       key={book.isbn}
       style={styles.row}>
       <Text>{book.name}</Text>
-      <TouchableOpacity onPress={() => onToggleFav(book)}>
-        <Text style={[styles.favoriteIcon]}>★</Text>
-      </TouchableOpacity>
+      {favorite && <Text style={[styles.favoriteIcon]}>★</Text>}
     </TouchableOpacity>
   );
 };
@@ -37,7 +33,6 @@ const createStyles = (fav: boolean) =>
       alignItems: 'center',
     },
     favoriteIcon: {
-      marginLeft: 'auto',
       color: fav ? 'gold' : 'gray',
     },
   });
