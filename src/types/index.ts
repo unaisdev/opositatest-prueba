@@ -13,3 +13,8 @@ export interface Book {
   characters: string[];
   povCharacters: string[];
 }
+
+export enum SortingEnum {
+  DEFAULT = 'Default',
+  ALPHABETICAL = 'Alphabetical',
+}
