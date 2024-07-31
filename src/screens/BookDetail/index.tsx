@@ -1,5 +1,5 @@
 import {RouteProp} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {
   Linking,
@@ -13,6 +13,7 @@ import {RootStackParams} from '../../navigation/types';
 
 import {useBookDetail} from './hooks/useBookDetail';
 import {useAppNavigation} from '../../navigation/hooks/useAppNavigation';
+import {useRecentBooksStore} from '../../storage/recents';
 
 const BookDetail = ({
   route,
@@ -21,9 +22,17 @@ const BookDetail = ({
 }) => {
   const {appNav} = useAppNavigation();
   const {book} = route.params;
+
   const {isFavorite, toggleFav} = useBookDetail(book);
+  const addRecent = useRecentBooksStore(state => state.addRecent);
 
   const styles = createStyles(isFavorite);
+
+  console.log('render detail');
+
+  useEffect(() => {
+    addRecent(book);
+  }, [addRecent, book]);
 
   return (
     <SafeAreaView style={styles.container}>

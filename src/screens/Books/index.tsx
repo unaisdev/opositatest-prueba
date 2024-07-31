@@ -36,7 +36,7 @@ const Books = () => {
   const debouncedSearchQuery = useDebounce(searchQuery, 200);
 
   const favorites = useFavBooksStore(state => state.favs);
-  const {recents, addRecent} = useRecentBooksStore();
+  const recents = useRecentBooksStore(state => state.recents);
 
   const {appNav} = useAppNavigation();
 
@@ -44,10 +44,9 @@ const Books = () => {
 
   const handleTapBook = useCallback(
     (book: Book) => {
-      addRecent(book);
       appNav.navigate('BookDetail', {book});
     },
-    [addRecent, appNav],
+    [appNav],
   );
 
   const renderItem: ListRenderItem<Book> = useCallback(
@@ -88,7 +87,7 @@ const Books = () => {
         </TouchableOpacity>
 
         <Text>Total Libros: {books?.length}</Text>
-        {recents.length > 0 && (
+        {recents.length > 0 && !debouncedSearchQuery && (
           <>
             <Text style={styles.sectionHeader}>Recientes (max. 3)</Text>
             <FlatList
