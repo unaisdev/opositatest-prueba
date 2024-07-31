@@ -4,9 +4,11 @@ import {
   FlatList,
   ListRenderItem,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import {fetchBooks} from '../../services/fetchBooks';
 import {Book} from '../../types';
@@ -21,6 +23,8 @@ const Books = () => {
   const favorites = useFavBooksStore(state => state.favs);
 
   const {appNav} = useAppNavigation();
+
+  console.log('render');
 
   useEffect(() => {
     const init = async () => {
@@ -62,26 +66,37 @@ const Books = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput
-        placeholder="Buscar"
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        style={styles.searchInput}
-      />
-
-      {recentBooks.length > 0 && (
-        <FlatList
-          ListHeaderComponent={() => <Text>Recientes</Text>}
-          data={recentBooks}
-          renderItem={renderItem}
+      <ScrollView>
+        <TextInput
+          placeholder="Buscar"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          style={styles.searchInput}
         />
-      )}
+        <TouchableOpacity onPress={fetchBooks} style={styles.searchButton}>
+          <Text>Actualizar libros</Text>
+        </TouchableOpacity>
 
-      <FlatList
-        ListHeaderComponent={() => <Text>Libros</Text>}
-        data={books}
-        renderItem={renderItem}
-      />
+        {recentBooks.length > 0 && !searchQuery && (
+          <>
+            <Text style={styles.sectionHeader}>Recientes</Text>
+            <FlatList
+              // There is a warning from React Native that says:
+              // VirtualizedLists should never be nested inside plain ScrollViews with the same orientation
+              // because it can break windowing and other functionality - use another
+              // VirtualizedList-backed container instead.
+
+              // That's why we disable the scroll on the FlatList
+              scrollEnabled={false}
+              data={recentBooks}
+              renderItem={renderItem}
+            />
+          </>
+        )}
+
+        <Text style={styles.sectionHeader}>Libros</Text>
+        <FlatList scrollEnabled={false} data={books} renderItem={renderItem} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -89,12 +104,25 @@ const Books = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
   },
   searchInput: {
     borderColor: '#ddd',
     borderWidth: 1,
     padding: 8,
     marginBottom: 8,
+  },
+  searchButton: {
+    backgroundColor: 'transparent',
+    padding: 10,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
 });
 
