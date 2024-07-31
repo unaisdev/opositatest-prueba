@@ -10,9 +10,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
-import {Book} from '../../types';
+import {Book, SortingEnum} from '../../types';
 import {BookItem} from './components/BookItem';
 
 import {useAppNavigation} from '../../navigation/hooks/useAppNavigation';
@@ -20,6 +21,8 @@ import {useFavBooksStore} from '../../storage/favorites';
 import {useBooksFetch} from './hooks/useBooksFetch';
 import {useRecentBooksStore} from '../../storage/recents';
 import {useDebounce} from '../../utils/useDebounce';
+import {orderAlphabetical} from '../../utils/sorting';
+import {useSortingTypeStore} from '../../storage/sorting';
 
 const Books = () => {
   const {
@@ -35,6 +38,7 @@ const Books = () => {
   // Apply debounce to searchQuery
   const debouncedSearchQuery = useDebounce(searchQuery, 200);
 
+  const {sortingType, setSortingType} = useSortingTypeStore();
   const favorites = useFavBooksStore(state => state.favs);
   const recents = useRecentBooksStore(state => state.recents);
 
@@ -60,18 +64,34 @@ const Books = () => {
     [favorites, handleTapBook],
   );
 
-  const filteredBooks = useMemo(() => {
+  const filteredAndSortedBooks = useMemo(() => {
     if (!books) {
       return [];
     }
 
-    return books.filter(book => {
+    const filtered = books.filter(book => {
       const bookName = book.name.toLowerCase().trim();
       const query = debouncedSearchQuery.toLowerCase().trim();
 
       return bookName.includes(query);
     });
-  }, [books, debouncedSearchQuery]);
+
+    if (sortingType === SortingEnum.ALPHABETICAL) {
+      return orderAlphabetical(filtered, sortingType);
+    }
+
+    return filtered;
+  }, [books, debouncedSearchQuery, sortingType]);
+
+  const toggleSorting = useCallback(() => {
+    if (sortingType === SortingEnum.DEFAULT) {
+      setSortingType(SortingEnum.ALPHABETICAL);
+
+      return;
+    }
+
+    setSortingType(SortingEnum.DEFAULT);
+  }, [setSortingType, sortingType]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -104,13 +124,20 @@ const Books = () => {
           </>
         )}
 
-        <Text style={styles.sectionHeader}>Libros</Text>
+        <View style={styles.row}>
+          <Text style={styles.sectionHeader}>Libros</Text>
+          <TouchableOpacity onPress={toggleSorting}>
+            <Text style={styles.sectionHeaderOrder}>
+              Ordenar Alfabeticamente
+            </Text>
+          </TouchableOpacity>
+        </View>
         {error && <Text>Algo ha ocurrido al cargar los libros</Text>}
         {isLoading || (isRefetching && <ActivityIndicator />)}
-        {filteredBooks.length > 0 ? (
+        {filteredAndSortedBooks.length > 0 ? (
           <FlatList
             scrollEnabled={false}
-            data={filteredBooks}
+            data={filteredAndSortedBooks}
             renderItem={renderItem}
           />
         ) : (
@@ -145,6 +172,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  sectionHeaderOrder: {
+    marginLeft: 'auto',
+    fontSize: 10,
   },
 });
 
