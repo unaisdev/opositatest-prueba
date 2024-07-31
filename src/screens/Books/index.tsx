@@ -77,6 +77,7 @@ const Books = () => {
           <Text>Actualizar libros</Text>
         </TouchableOpacity>
 
+        <Text>Total Libros: {books.length}</Text>
         {recentBooks.length > 0 && !searchQuery && (
           <>
             <Text style={styles.sectionHeader}>Recientes</Text>
