@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import lodash from 'lodash';
 
-const LegacyApp = () => {
+const App = () => {
   const [books, setBooks] = useState<[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -246,4 +246,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LegacyApp;
+export default App;
