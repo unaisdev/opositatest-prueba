@@ -22,7 +22,7 @@ import {AppLayout} from '@components/AppLayout';
 import {useAppNavigation} from '@navigation/hooks/useAppNavigation';
 import {useFavBooksStore} from '@storage/favorites';
 import {useRecentBooksStore} from '@storage/recents';
-import {useSortingTypeStore} from '@storage/sorting';
+import {useSortingTypeStore} from '@storage/sorting/sorting';
 import {useDebounce} from '@utils/useDebounce';
 
 import {useBooksFetch} from './hooks/useBooksFetch';

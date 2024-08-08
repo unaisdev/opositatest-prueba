@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
-import {useSortingTypeStore} from '@storage/sorting';
+import {useSortingTypeStore} from '@storage/sorting/sorting';
 
 import {SortingEnum} from '@type/index';
 
