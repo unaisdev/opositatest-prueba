@@ -1,7 +1,7 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
+  "moduleResolution": "nodenext",
   "compilerOptions": {
-    // ... other configs, if any
     "baseUrl": ".",
     "paths": {
       "@api/*": ["src/storage/services/*"],
@@ -14,5 +14,6 @@
       "@storage/*": ["src/storage/*"],
       "@type/*": ["src/types/"]
     }
-  }
+  },
+  "types": ["bun-types"]
 }
