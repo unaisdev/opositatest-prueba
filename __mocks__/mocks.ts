@@ -1,0 +1,43 @@
+import {Book} from '@type/index';
+
+export const booksMock: Book[] = [
+  {
+    url: 'http://example.com/book1',
+    name: 'El Zorro: El Regreso del Justiciero',
+    isbn: '978-1234567890',
+    authors: ['Juan Pérez'],
+    numberOfPages: 320,
+    publisher: 'Editorial Ficción',
+    country: 'España',
+    mediaType: 'Tapa dura',
+    released: '2021-01-15',
+    characters: ['El Zorro', 'Don Diego de la Vega'],
+    povCharacters: ['Don Diego de la Vega'],
+  },
+  {
+    url: 'http://example.com/book2',
+    name: 'El Secreto de la Manzana Dorada',
+    isbn: '978-2345678912',
+    authors: ['María Fernández'],
+    numberOfPages: 245,
+    publisher: 'Editorial Granate',
+    country: 'México',
+    mediaType: 'Tapa blanda',
+    released: '2022-06-30',
+    characters: ['Ana', 'Luis'],
+    povCharacters: ['Ana'],
+  },
+  {
+    url: 'http://example.com/book3',
+    name: 'Cuentos de la Naranja Espléndida',
+    isbn: '978-3456789123',
+    authors: ['Carlos Martínez'],
+    numberOfPages: 180,
+    publisher: 'Editorial Citrus',
+    country: 'Argentina',
+    mediaType: 'Ebook',
+    released: '2023-03-20',
+    characters: ['Javier', 'Lucía'],
+    povCharacters: ['Lucía'],
+  },
+];

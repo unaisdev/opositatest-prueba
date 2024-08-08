@@ -1,17 +1,20 @@
-/**
- * @format
- */
-
-import 'react-native';
 import React from 'react';
-import App from '../App';
+import {render} from '@testing-library/react-native';
+import App, {queryClient} from '../App';
 
-// Note: import explicitly to use the types shipped with jest.
-import {it} from '@jest/globals';
+queryClient.setDefaultOptions({
+  queries: {
+    gcTime: 0,
+  },
+});
 
-// Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+describe('app snapshot render', () => {
+  afterEach(() => {
+    queryClient.clear();
+  });
 
-it('renders correctly', () => {
-  renderer.create(<App />);
+  test('renders correctly', () => {
+    const tree = render(<App />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });
