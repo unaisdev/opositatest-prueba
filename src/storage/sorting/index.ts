@@ -1,7 +1,9 @@
 import {MMKV} from 'react-native-mmkv';
 import {StateStorage} from 'zustand/middleware';
 
-const storage = new MMKV();
+const storage = new MMKV({
+  id: 'sorting-storage',
+});
 
 export const mmvkStorage: StateStorage = {
   setItem: (key, data) => {
