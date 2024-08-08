@@ -6,7 +6,10 @@ export const orderAlphabetical = (
 ): Books => {
   if (orderType === SortingEnum.ALPHABETICAL) {
     return books.sort((bookA, bookB) => {
-      return bookA.name.localeCompare(bookB.name);
+      const bookAName = bookA.name.toLowerCase();
+      const bookBName = bookB.name.toLowerCase();
+
+      return bookAName.localeCompare(bookBName);
     });
   }
 
