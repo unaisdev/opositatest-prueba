@@ -4,7 +4,6 @@ import {
   ActivityIndicator,
   FlatList,
   ListRenderItem,
-  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
@@ -12,17 +11,24 @@ import {
   View,
 } from 'react-native';
 
-import {Book, SortingEnum} from '../../types';
+import {Book} from '@type/index';
+
 import {BookItem} from './components/BookItem';
+import {EmptyComponent} from './components/EmptyComponent';
 
-import {useAppNavigation} from '../../navigation/hooks/useAppNavigation';
-import {useFavBooksStore} from '../../storage/favorites';
+import {Sorting} from '@components/Sorting';
+import {AppLayout} from '@components/AppLayout';
+
+import {useAppNavigation} from '@navigation/hooks/useAppNavigation';
+import {useFavBooksStore} from '@storage/favorites';
+import {useRecentBooksStore} from '@storage/recents';
+import {useSortingTypeStore} from '@storage/sorting';
+import {useDebounce} from '@utils/useDebounce';
+
 import {useBooksFetch} from './hooks/useBooksFetch';
-import {useRecentBooksStore} from '../../storage/recents';
-import {useDebounce} from '../../utils/useDebounce';
 
-import {useSortingTypeStore} from '../../storage/sorting';
-import {filterAndSortBooks} from '../../utils/books';
+import {filterAndSortBooks} from '@utils/books';
+
 import {styles} from './styles';
 
 const Books = () => {
@@ -39,7 +45,7 @@ const Books = () => {
   // Apply debounce to searchQuery
   const debouncedSearchQuery = useDebounce(searchQuery, 200);
 
-  const {sortingType, setSortingType} = useSortingTypeStore();
+  const sortingType = useSortingTypeStore(state => state.sortingType);
   const favorites = useFavBooksStore(state => state.favs);
   const recents = useRecentBooksStore(state => state.recents);
 
@@ -75,18 +81,10 @@ const Books = () => {
     [books, debouncedSearchQuery, sortingType],
   );
 
-  const toggleSorting = useCallback(() => {
-    if (sortingType === SortingEnum.DEFAULT) {
-      setSortingType(SortingEnum.ALPHABETICAL);
-
-      return;
-    }
-
-    setSortingType(SortingEnum.DEFAULT);
-  }, [setSortingType, sortingType]);
+  const shouldRenderRecentsList = recents.length > 0 && !debouncedSearchQuery;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <AppLayout>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TextInput
           placeholder="Buscar"
@@ -99,7 +97,7 @@ const Books = () => {
         </TouchableOpacity>
 
         <Text>Total Libros: {books?.length}</Text>
-        {recents.length > 0 && !debouncedSearchQuery && (
+        {shouldRenderRecentsList && (
           <>
             <Text style={styles.sectionHeader}>Recientes (max. 3)</Text>
             <FlatList
@@ -118,25 +116,19 @@ const Books = () => {
 
         <View style={styles.row}>
           <Text style={styles.sectionHeader}>Libros</Text>
-          <TouchableOpacity onPress={toggleSorting}>
-            <Text style={styles.sectionHeaderOrder}>
-              Ordenar Alfabeticamente
-            </Text>
-          </TouchableOpacity>
+          <Sorting />
         </View>
         {error && <Text>Algo ha ocurrido al cargar los libros</Text>}
-        {isLoading || (isRefetching && <ActivityIndicator />)}
-        {filteredAndSortedBooks.length > 0 ? (
-          <FlatList
-            scrollEnabled={false}
-            data={filteredAndSortedBooks}
-            renderItem={renderItem}
-          />
-        ) : (
-          <Text>No hay libros que coincidan con la búsqueda</Text>
-        )}
+        {(isLoading || isRefetching) && <ActivityIndicator />}
+
+        <FlatList
+          scrollEnabled={false}
+          data={filteredAndSortedBooks}
+          renderItem={renderItem}
+          ListEmptyComponent={EmptyComponent}
+        />
       </ScrollView>
-    </SafeAreaView>
+    </AppLayout>
   );
 };
 

@@ -3,7 +3,7 @@ import {persist, createJSONStorage} from 'zustand/middleware';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {SortingEnum} from '../types';
+import {SortingEnum} from '@type/index';
 
 interface SortingTypeState {
   sortingType: SortingEnum;

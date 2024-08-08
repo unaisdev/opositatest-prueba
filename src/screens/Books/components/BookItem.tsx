@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Book} from '../../../types';
+
+import {Book} from '@type/index';
 
 export const BookItem = ({
   book,

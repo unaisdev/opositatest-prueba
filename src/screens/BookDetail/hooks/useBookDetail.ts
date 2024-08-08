@@ -1,5 +1,6 @@
-import {useFavBooksStore} from '../../../storage/favorites';
-import {Book} from '../../../types';
+import {useFavBooksStore} from '@storage/favorites';
+
+import {Book} from '@type/index';
 
 export function useBookDetail(book: Book) {
   const {favs, toggleFav} = useFavBooksStore();

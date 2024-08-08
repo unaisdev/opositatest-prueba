@@ -30,8 +30,4 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  sectionHeaderOrder: {
-    marginLeft: 'auto',
-    fontSize: 10,
-  },
 });

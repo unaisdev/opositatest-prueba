@@ -1,4 +1,4 @@
-import {Books} from '../types';
+import {Books} from '@type/index';
 
 // Obtenemos los libros
 export const fetchBooks = async (): Promise<Books | undefined> => {

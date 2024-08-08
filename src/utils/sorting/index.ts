@@ -1,4 +1,4 @@
-import {Books, SortingEnum} from '../../types';
+import {Books, SortingEnum} from '@type/index';
 
 export const orderAlphabetical = (
   books: Books,

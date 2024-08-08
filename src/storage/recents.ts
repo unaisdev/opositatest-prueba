@@ -1,5 +1,6 @@
 import {create} from 'zustand';
-import {Book, Books} from '../types';
+
+import {Book, Books} from '@type/index';
 
 interface RecentBooksState {
   recents: Books;

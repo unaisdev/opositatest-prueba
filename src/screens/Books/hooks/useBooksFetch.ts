@@ -1,5 +1,6 @@
 import {useQuery} from '@tanstack/react-query';
-import {fetchBooks} from '../../../services/fetchBooks';
+
+import {fetchBooks} from '@services/fetchBooks';
 
 export function useBooksFetch() {
   const {data, error, isLoading, isRefetching, refetch} = useQuery({

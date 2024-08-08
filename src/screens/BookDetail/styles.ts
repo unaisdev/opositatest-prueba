@@ -2,9 +2,6 @@ import {StyleSheet} from 'react-native';
 
 export const createStyles = (fav: boolean) =>
   StyleSheet.create({
-    container: {
-      flex: 1,
-    },
     favoriteIcon: {
       marginLeft: 'auto',
       color: fav ? 'gold' : 'gray',

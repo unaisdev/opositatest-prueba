@@ -1,18 +1,16 @@
-import {RouteProp} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 
-import {
-  Linking,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {RootStackParams} from '../../navigation/types';
+import {RootStackParams} from '@navigation/types';
+import {RouteProp} from '@react-navigation/native';
+
+import {Linking, Text, TouchableOpacity, View} from 'react-native';
+import {AppLayout} from '@components/AppLayout';
+
+import {useAppNavigation} from '@navigation/hooks/useAppNavigation';
+import {useRecentBooksStore} from '@storage/recents';
 
 import {useBookDetail} from './hooks/useBookDetail';
-import {useAppNavigation} from '../../navigation/hooks/useAppNavigation';
-import {useRecentBooksStore} from '../../storage/recents';
+
 import {createStyles} from './styles';
 
 const BookDetail = ({
@@ -35,13 +33,15 @@ const BookDetail = ({
   }, [addRecent, book]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <AppLayout>
       <View style={styles.bookDetail}>
         <Text style={styles.bookDetailTitle}>{book.name}</Text>
+
         <Text>Autor: {book.authors.join(', ')}</Text>
         <Text>Editorial: {book.publisher}</Text>
         <Text>Número de páginas: {book.numberOfPages}</Text>
         <Text>Año de publicación: {book.released}</Text>
+
         <TouchableOpacity
           onPress={() => toggleFav(book)}
           style={styles.favoriteButton}>
@@ -49,11 +49,13 @@ const BookDetail = ({
             {isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
           </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => appNav.goBack()}
           style={styles.closeButton}>
           <Text>Cerrar</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => {
             Linking.canOpenURL(book.url).then(() => {
@@ -64,7 +66,7 @@ const BookDetail = ({
           <Text>Abrir API en el navegador</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </AppLayout>
   );
 };
 
