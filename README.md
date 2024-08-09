@@ -46,3 +46,38 @@ El objetivo de esta prueba es evaluar tus habilidades en React Native y tu capac
 
 <img src="./photos/ios.png" alt="Imagen de Ejemplo 1" width="200" height="400"/>
 <img src="./photos/android.png" alt="Imagen de Ejemplo 2" width="200" height="400"/>
+
+
+
+# HOW I EMBRACE IT
+
+# Notes
+
+Para generar la build en iOS (.ipa), sin tener una cuenta de developer pagada y poder probarla en producción desde un dispositivo físico, debes hacer click en el schema de tu app > Targets (el de "...Test" también) > Signing & Capabilities > Check 'Automatically manage signing' & setear tu cuenta
+
+## Limpiar build anterior (opcional)
+xcodebuild clean -workspace YourProjectName.xcworkspace -scheme YourProjectName -configuration Release
+
+## Generar el archivo .xcarchive
+xcodebuild archive -workspace YourProjectName.xcworkspace -scheme YourProjectName -configuration Release -sdk iphoneos -archivePath ~/Desktop/YourProjectName.xcarchive
+
+## Generar ExportOptions.plist
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+   <dict>
+      <key>method</key>
+      <string>development</string>
+      <key>provisioningProfiles</key>
+      <dict>
+         <key>org.reactjs.native.example.opositatestprueba</key>
+         <string>Unai Canales</string>
+      </dict>
+   </dict>
+</plist>
+```
+
+## Exportar el archivo .ipa
+xcodebuild -exportArchive -archivePath ~/Desktop/YourProjectName.xcarchive -exportOptionsPlist **/path/to/**ExportOptions.plist -exportPath ~/Desktop/pathExport
