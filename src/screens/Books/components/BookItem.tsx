@@ -3,6 +3,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import {Book} from '@type/index';
+import Animated from 'react-native-reanimated';
 
 export const BookItem = ({
   book,
@@ -20,11 +21,13 @@ export const BookItem = ({
       onPress={() => onPress(book)}
       key={book.isbn}
       style={styles.bookItem}>
-      <Image
+      <Animated.Image
+        sharedTransitionTag={book.isbn}
         source={{
           uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
         }}
         style={styles.bookImage}
+        resizeMode={'contain'}
       />
       <Text style={styles.bookTitle}>{book.name}</Text>
       {favorite && <Text style={[styles.favoriteIcon]}>★</Text>}

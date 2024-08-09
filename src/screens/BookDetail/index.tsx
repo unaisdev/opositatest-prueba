@@ -3,7 +3,14 @@ import React, {useEffect} from 'react';
 import {RootStackParams} from '@navigation/types';
 import {RouteProp} from '@react-navigation/native';
 
-import {Linking, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {AppLayout} from '@components/AppLayout';
 
 import {useAppNavigation} from '@navigation/hooks/useAppNavigation';
@@ -12,6 +19,7 @@ import {useRecentBooksStore} from '@storage/recents';
 import {useBookDetail} from './hooks/useBookDetail';
 
 import {createStyles} from './styles';
+import Animated from 'react-native-reanimated';
 
 const BookDetail = ({
   route,
@@ -36,6 +44,15 @@ const BookDetail = ({
     <AppLayout>
       <View style={styles.bookDetail}>
         <Text style={styles.bookDetailTitle}>{book.name}</Text>
+
+        <Animated.Image
+          sharedTransitionTag={book.isbn}
+          source={{
+            uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
+          }}
+          style={styles.bookImage}
+          resizeMode={'contain'}
+        />
 
         <Text>Autor: {book.authors.join(', ')}</Text>
         <Text>Editorial: {book.publisher}</Text>

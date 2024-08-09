@@ -20,6 +20,10 @@ export const createStyles = (fav: boolean) =>
       fontWeight: 'bold',
       marginBottom: 10,
     },
+    bookImage: {
+      width: '100%',
+      height: 200,
+    },
     favoriteButton: {
       backgroundColor: '#007bff',
       padding: 10,
