@@ -6,52 +6,11 @@
 
 El objetivo de esta prueba es evaluar tus habilidades en React Native y tu capacidad para optimizar y mejorar código existente. Se espera que proporciones sugerencias para mejorar el rendimiento, la estructura y la mantenibilidad del código. Además, es crucial que la aplicación sea compatible con versiones de Android 6 (Marshmallow) o superiores y versiones de iOS. El código proporcionado implementa una aplicación básica de visualización de libros, y tendrás que identificar áreas de mejora y aplicar tus conocimientos para optimizarlo.
 
-## Instrucciones
+_ - _ -_ - _ -_ - _ -_ - _ -_ - _ -_ - _ -_
 
-1. **Revisión del Código:**
+# Como lo manejamos
 
-   - Analiza el código proporcionado.
-   - Identifica áreas que podrían mejorarse, ya sea en términos de rendimiento, estructura del código o buenas prácticas de desarrollo.
-
-2. **Mejoras Sugeridas:**
-
-   - Propón mejoras específicas para optimizar el rendimiento, la legibilidad y la mantenibilidad del código.
-   - Implementa estas mejoras.
-   - Asegúrate de que la aplicación funcione correctamente en las diferentes plataformas.
-   - Se valorara positivamente el uso de alguna micro-animación.
-   - El uso de tests.
-   - Se valorarán las buenas prácticas en los commits (atómicos, explicados, etc..)
-
-3. **Compatibilidad con Android e iOS:**
-
-   - Verifica que la aplicación sea compatible con Android e iOS.
-   - Ajusta el código según las limitaciones de las versiones mencionadas para garantizar una funcionalidad óptima en ambos sistemas operativos.
-
-4. **Pruebas y Validación:**
-
-   - Verifica que no se hayan introducido errores o problemas de rendimiento en la aplicación.
-   - Documenta los pasos para ejecutar las pruebas y validarla.
-
-5. **Nuevas funcionabilidades (opcional)**
-
-- Ordenación Alfabética: Se valorará muy positivamente la implementación de una funcionalidad que permita ordenar los libros alfabéticamente y que esta ordenación persista incluso si se cierra la aplicación.
-
-6. **Entrega:**
-   - Sube tus cambios a un repositorio en GitHub.
-   - Incluye un archivo `README.md` en el repositorio que explique las mejoras realizadas.
-   - Entrega al menos un binario de alguna de las plataformas (Android `.apk/.aab` o iOS `.ipa`).
-   - Incluye instrucciones para la instalación y ejecución de la aplicación en el `README.md`.
-
-## App
-
-<img src="./photos/ios.png" alt="Imagen de Ejemplo 1" width="200" height="400"/>
-<img src="./photos/android.png" alt="Imagen de Ejemplo 2" width="200" height="400"/>
-
-
-
-# HOW I EMBRACE IT
-
-## First sight, split, optimise, reduce & storytelling
+## First sight, split, optimise & reduce. The storytelling.
 
 De primeras encontré que utilizaba 'lodash', una librería antigua que proporciona métodos que ya vienen tiempo atrás implementados en el estándar de JavaScript. Quizás alguna funcion puede ser interesante pero no merece la pena instalar una librería para hacer uso de una única función... 
 
@@ -72,6 +31,77 @@ He implementado estas librerías para hacer que el proyecto fuese lo más óptim
 # Deliverables (.apk & .ipa)
 
 **Están en la raiz, una carpeta llamada '/deliverables'.**
+
+
+# How to Run It
+
+### 1. Clona el Repositorio
+
+git clone https://github.com/tuusuario/opositatestprueba.git
+cd opositatestprueba
+
+###2. Instala las Dependencias
+
+> Asegúrate de tener Yarn instalado en tu máquina. 
+
+Instala las dependencias del proyecto con el siguiente comando:
+
+```bash
+yarn install
+```
+
+### 3. Configuración del Entorno
+Asegúrate de tener instaladas las siguientes herramientas:
+
+- Node.js >= 18.0.0
+- Watchman (para macOS)
+- Android Studio con Android SDK instalado
+- Xcode (para iOS)
+- Si trabajas en macOS y deseas ejecutar la aplicación en iOS, asegúrate de que Xcode esté instalado y configurado correctamente.
+
+### 4. Ejecutar la Aplicación en Android
+Conecta un dispositivo Android o abre un emulador. Si usas VSCode, te recomiendo la extensión de Android Emulator para tener un shortcut para lanzarlos. Luego, ejecuta:
+
+```bash
+yarn android
+```
+
+Esto compilará y ejecutará la aplicación en un dispositivo o emulador Android.
+
+### 5. Ejecutar la Aplicación en iOS
+Asegúrate de tener un simulador de iOS abierto o un dispositivo conectado. Luego, ejecuta:
+
+```bash
+yarn ios
+```
+
+Esto compilará y ejecutará la aplicación en el simulador o dispositivo iOS.
+
+### 6. Iniciar el Servidor de Desarrollo
+Puedes iniciar el servidor de desarrollo (Metro) con el siguiente comando:
+
+```bash
+yarn start
+```
+
+### 7. Ejecutar Tests
+Si deseas ejecutar los tests del proyecto, puedes hacerlo con:
+
+```bash
+yarn test
+```
+
+### 8. Generar una Build de Producción para Android
+Si deseas generar una build de producción para Android, ejecuta:
+
+```bash
+yarn build:android
+```
+
+\
+\
+\
+ .
 
 # Notes
 
