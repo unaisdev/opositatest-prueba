@@ -1,6 +1,3 @@
-# Prueba Técnica para OpositaTest
-
-¡Bienvenido/a a la prueba técnica de OpositaTest!
 
 ## Objetivo
 
