@@ -19,9 +19,14 @@ export const Sorting = () => {
     setSortingType(SortingEnum.DEFAULT);
   }, [setSortingType, sortingType]);
 
+  const buttonText =
+    sortingType === SortingEnum.ALPHABETICAL
+      ? 'Ordenar Alfabeticamente'
+      : 'Ordenar Predeterminado';
+
   return (
     <TouchableOpacity onPress={toggleSorting}>
-      <Text style={styles.sectionHeaderOrder}>Ordenar Alfabeticamente</Text>
+      <Text style={styles.sectionHeaderOrder}>{buttonText}</Text>
     </TouchableOpacity>
   );
 };
