@@ -14,7 +14,6 @@
     "@react-navigation/native": "6.1.18",
     "@react-navigation/native-stack": "6.11.0",
     "@tanstack/react-query": "5.51.15",
-    "lodash": "4.17.21",
     "react": "18.2.0",
     "react-native": "0.74.3",
     "react-native-mmkv": "2.12.2",
