@@ -34,7 +34,7 @@ He implementado estas librerías para hacer que el proyecto fuese lo más óptim
 
 ### 1. Clona el Repositorio
 
-git clone https://github.com/tuusuario/opositatestprueba.git
+git clone https://github.com/unaisdev/opositatest-prueba.git
 cd opositatestprueba
 
 ###2. Instala las Dependencias
@@ -66,6 +66,33 @@ yarn android
 Esto compilará y ejecutará la aplicación en un dispositivo o emulador Android.
 
 ### 5. Ejecutar la Aplicación en iOS
+
+#### Configuración de CocoaPods para iOS
+
+Para configurar y gestionar las dependencias de iOS en tu proyecto de React Native, sigue estos pasos:
+
+ 1. segúrate de Tener CocoaPods Instalado
+
+Primero, asegúrate de tener CocoaPods instalado en tu sistema. Si no lo tienes, puedes instalarlo con el siguiente comando:
+
+```bash
+sudo gem install cocoapods
+```
+
+2. Navega al Directorio iOS
+Abre una terminal y navega al directorio ios de tu proyecto React Native:
+
+```bash
+cd ios
+```
+
+3. Ejecuta pod install
+Dentro del directorio ios, ejecuta el siguiente comando para instalar las dependencias definidas en el archivo Podfile:
+
+```bash
+pod install
+```
+
 Asegúrate de tener un simulador de iOS abierto o un dispositivo conectado. Luego, ejecuta:
 
 ```bash
@@ -129,4 +156,4 @@ xcodebuild archive -workspace YourProjectName.xcworkspace -scheme YourProjectNam
 ```
 
 ## Exportar el archivo .ipa
-xcodebuild -exportArchive -archivePath ~/Desktop/YourProjectName.xcarchive -exportOptionsPlist **/path/to/**ExportOptions.plist -exportPath ~/Desktop/pathExport
+xcodebuild -exportArchive -archivePath ~/Desktop/YourProjectName.xcarchive -exportOptionsPlist **/path/to/**ExportOptions.plist -exportPath ~/Desktop/**pathExport**
