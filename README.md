@@ -34,7 +34,7 @@ He implementado estas librerías para hacer que el proyecto fuese lo más óptim
 
 ### 1. Clona el Repositorio
 
-git clone https://github.com/unaisdev/opositatest-prueba.git
+git clone https://github.com/tuusuario/opositatestprueba.git
 cd opositatestprueba
 
 ###2. Instala las Dependencias
