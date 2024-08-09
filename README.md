@@ -51,6 +51,28 @@ El objetivo de esta prueba es evaluar tus habilidades en React Native y tu capac
 
 # HOW I EMBRACE IT
 
+## First sight, split, optimise, reduce & storytelling
+
+De primeras encontré que utilizaba 'lodash', una librería antigua que proporciona métodos que ya vienen tiempo atrás implementados en el estándar de JavaScript. Quizás alguna funcion puede ser interesante pero no merece la pena instalar una librería para hacer uso de una única función... 
+
+Me puse bastante nervioso viendo el tamaño del render y pensando, creo que voy a entender bien lo que es la lógica de la app. y quedarme solamente con los estilos. 
+
+Manos a la obra con la definición de la navegación, una primera pantalla para la lista y una segunda del detalle. Para esto instalamos @react-native/navigation, un gestor de navegación robusto, que ofrece la experiencia de navegación nativa a ambas plataformas. Creamos también el hook para consumir el objeto de navegación, ya que las routeProps las recibimos en el mismo componente.
+
+Creamos dichas pantallas para añadir a la navegación, con sus respectivos componentes y hooks.
+Componetizamos un poco por aquí y otro por allá, un AppLayout para estandarizar los márgenes de las pantallas y tener en cuenta que la app se vea bien, el item de la lista de libros, cuando la lista está vacía, el botón de sorting...
+Creamos unos útiles para hacer el filtrado y sorting de los libros.
+
+Pasamos a querer añadir los libros a una lista de favoritos, también cuando entramos al detalle del libro, necesitamos saber de los ultimos libros a los que hemos accedido (recientes). Para esto necesitamos un gestor de estados global, existen muchas opciones para gestionar el estado, contextos, reducers, Redux... pero me decanté por Zustand, es muy completo, ligero y también nos permite persistir la información de los stores con MMKV, por ejemplo, para hacer aún más segura y performántica la aplicación, comparándolo con AsyncStorage, por ejemplo.
+
+Entonces creamos el tipo principal de Book a partir de la respuesta del request. Generamos el servicio para la petición y lo cacheamos para reducir lo máximo posible las llamadas a la API por posibles reloads, volver a tener que hacer la misma consulta, estados de loading, errores... Todo esto lo podríamos gestionar con un hook global que llama al servicio y tiene sus useStates, pero para reinventar la rueda tenemos @tanstack/react-query, una librería muy popular por gestionar todo lo mencionado y muchas cosas más, staleTime, tiempo en la cache, optimistic updates...
+
+He implementado estas librerías para hacer que el proyecto fuese lo más óptimo posible, tanto en produccion, como en la experiencia de desarrollo. 
+
+# Deliverables (.apk & .ipa)
+
+**Están en la raiz, una carpeta llamada '/deliverables'.**
+
 # Notes
 
 Para generar la build en iOS (.ipa), sin tener una cuenta de developer pagada y poder probarla en producción desde un dispositivo físico, debes hacer click en el schema de tu app > Targets (el de "...Test" también) > Signing & Capabilities > Check 'Automatically manage signing' & setear tu cuenta
