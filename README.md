@@ -1,108 +1,109 @@
 
-## Objetivo
+# Objetivo
 
 El objetivo de esta prueba es evaluar tus habilidades en React Native y tu capacidad para optimizar y mejorar código existente. Se espera que proporciones sugerencias para mejorar el rendimiento, la estructura y la mantenibilidad del código. Además, es crucial que la aplicación sea compatible con versiones de Android 6 (Marshmallow) o superiores y versiones de iOS. El código proporcionado implementa una aplicación básica de visualización de libros, y tendrás que identificar áreas de mejora y aplicar tus conocimientos para optimizarlo.
 
-_ - _ -_ - _ -_ - _ -_ - _ -_ - _ -_ - _ -_
 
-# Como lo manejamos
+# Estructura de Carpetas
 
-## First sight, split, optimise & reduce. The storytelling.
+```plaintext
+├── src/
+│   ├── components/
+│   ├── constants/
+│   ├── navigation/
+│   ├── screens/
+│   ├── services/
+│   ├── storage/
+│   ├── types/
+│   ├── utils/
+```
 
-De primeras encontré que utilizaba 'lodash', una librería antigua que proporciona métodos que ya vienen tiempo atrás implementados en el estándar de JavaScript. Quizás alguna funcion puede ser interesante pero no merece la pena instalar una librería para hacer uso de una única función... 
+# Librerías desinstaladas
 
-Me puse bastante nervioso viendo el tamaño del render y pensando, creo que voy a entender bien lo que es la lógica de la app. y quedarme solamente con los estilos. 
+- `lodash`: no compensa el uso que se le da en este caso. Para ello, utilizamos las funciones nativas de la API de JavaScript (filter, sort...).
 
-Manos a la obra con la definición de la navegación, una primera pantalla para la lista y una segunda del detalle. Para esto instalamos @react-native/navigation, un gestor de navegación robusto, que ofrece la experiencia de navegación nativa a ambas plataformas. Creamos también el hook para consumir el objeto de navegación, ya que las routeProps las recibimos en el mismo componente.
+# Librerías instaladas
 
-Creamos dichas pantallas para añadir a la navegación, con sus respectivos componentes y hooks.
-Componetizamos un poco por aquí y otro por allá, un AppLayout para estandarizar los márgenes de las pantallas y tener en cuenta que la app se vea bien, el item de la lista de libros, cuando la lista está vacía, el botón de sorting...
-Creamos unos útiles para hacer el filtrado y sorting de los libros.
+- `axios`: manejo de peticiones asíncronas
+- `@react-navigation/native`: manejo de la navegación entre pantallas
+- `@tanstack/react-query`: gestiond de estado, caching, refetch, isLoading, error...
+- `react-native-mmkv`: persistencia de datos
+- `react-native-reanimated`: animaciones
+- `zustand`: estado global
 
-Pasamos a querer añadir los libros a una lista de favoritos, también cuando entramos al detalle del libro, necesitamos saber de los ultimos libros a los que hemos accedido (recientes). Para esto necesitamos un gestor de estados global, existen muchas opciones para gestionar el estado, contextos, reducers, Redux... pero me decanté por Zustand, es muy completo, ligero y también nos permite persistir la información de los stores con MMKV, por ejemplo, para hacer aún más segura y performántica la aplicación, comparándolo con AsyncStorage, por ejemplo.
-
-Entonces creamos el tipo principal de Book a partir de la respuesta del request. Generamos el servicio para la petición y lo cacheamos para reducir lo máximo posible las llamadas a la API por posibles reloads, volver a tener que hacer la misma consulta, estados de loading, errores... Todo esto lo podríamos gestionar con un hook global que llama al servicio y tiene sus useStates, pero para reinventar la rueda tenemos @tanstack/react-query, una librería muy popular por gestionar todo lo mencionado y muchas cosas más, staleTime, tiempo en la cache, optimistic updates...
-
-He implementado estas librerías para hacer que el proyecto fuese lo más óptimo posible, tanto en produccion, como en la experiencia de desarrollo. 
 
 # Deliverables (.apk & .ipa)
 
-**Están en la raiz, una carpeta llamada '/deliverables'.**
+Están en la raiz, una carpeta llamada '/deliverables'.
 
 
-# How to Run It
+# Como levantar el proyecto
 
 ### 1. Clona el Repositorio
 
-git clone https://github.com/unaisdev/opositatest-prueba.git
+```cmd
+git clone https://github.com/unaisdev/opositatest-prueba.git 
+
 cd opositatestprueba
+```
 
-###2. Instala las Dependencias
+### 2. Instala las Dependencias
 
-> Asegúrate de tener Yarn instalado en tu máquina. 
+> Asegúrate de tener npm, Yarn o bun instalado en tu máquina. 
 
-Instala las dependencias del proyecto con el siguiente comando:
+Instala las dependencias con uno de los siguientes comandos:
 
 ```bash
-yarn install
+yarn
+npm i
+bun i
 ```
 
 ### 3. Configuración del Entorno
-Asegúrate de tener instaladas las siguientes herramientas:
+Asegúrate de tener instaladas las siguientes herramientas, si no, puedes seguir la guía de [React Native oficial](https://reactnative.dev/docs/set-up-your-environment):
 
-- Node.js >= 18.0.0
-- Watchman (para macOS)
-- Android Studio con Android SDK instalado
-- Xcode (para iOS)
-- Si trabajas en macOS y deseas ejecutar la aplicación en iOS, asegúrate de que Xcode esté instalado y configurado correctamente.
+- Node.js >= v18.19.0
+- Watchman (para macOS) 2024.01.15.00
+- JDK 17.0.9 (zulu)
+- Android Studio Hedgehog | 2023.1.1 Patch 1 (December 26, 2023)
+- Android SDK 34
+- Xcode (macOS) Version 15.2 (15C500b)
+- Emulador Android
+- Emulador iOS
 
 ### 4. Ejecutar la Aplicación en Android
-Conecta un dispositivo Android o abre un emulador. Si usas VSCode, te recomiendo la extensión de Android Emulator para tener un shortcut para lanzarlos. Luego, ejecuta:
+Conecta un dispositivo Android o abre un emulador.
+
+>  Si usas VSCode, te recomiendo la extensión de [Android Emulator](https://marketplace.visualstudio.com/items?itemName=DiemasMichiels.emulate) y así tener un shortcut (Cmd + Shift + P > Emulator) para lanzarlos.
+
+Luego, ejecuta:
 
 ```bash
 yarn android
 ```
 
-Esto compilará y ejecutará la aplicación en un dispositivo o emulador Android.
-
 ### 5. Ejecutar la Aplicación en iOS
 
-#### Configuración de CocoaPods para iOS
-
-Para configurar y gestionar las dependencias de iOS en tu proyecto de React Native, sigue estos pasos:
-
- 1. segúrate de Tener CocoaPods Instalado
-
-Primero, asegúrate de tener CocoaPods instalado en tu sistema. Si no lo tienes, puedes instalarlo con el siguiente comando:
-
-```bash
-sudo gem install cocoapods
-```
-
-2. Navega al Directorio iOS
-Abre una terminal y navega al directorio ios de tu proyecto React Native:
+Navega al directorio iOS
+Abre una terminal y navega al directorio `/ios`:
 
 ```bash
 cd ios
 ```
 
-3. Ejecuta pod install
-Dentro del directorio ios, ejecuta el siguiente comando para instalar las dependencias definidas en el archivo Podfile:
+Dentro del directorio `/ios`, ejecuta el siguiente comando para instalar las dependencias:
 
 ```bash
 pod install
 ```
 
-Asegúrate de tener un simulador de iOS abierto o un dispositivo conectado. Luego, ejecuta:
+Ejecuta la aplicación:
 
 ```bash
 yarn ios
 ```
 
-Esto compilará y ejecutará la aplicación en el simulador o dispositivo iOS.
-
 ### 6. Iniciar el Servidor de Desarrollo
-Puedes iniciar el servidor de desarrollo (Metro) con el siguiente comando:
 
 ```bash
 yarn start
@@ -127,9 +128,9 @@ yarn build:android
 \
  .
 
-# Notes
+# Notas personales
 
-Para generar la build en iOS (.ipa), sin tener una cuenta de developer pagada y poder probarla en producción desde un dispositivo físico, debes hacer click en el schema de tu app > Targets (el de "...Test" también) > Signing & Capabilities > Check 'Automatically manage signing' & setear tu cuenta
+Para generar la build en iOS (.ipa), sin tener una cuenta de developer pagada y poder probarla en producción desde un dispositivo físico, debes hacer click en el schema de tu app > Targets (el de "...Test" también) > Signing & Capabilities > En todos los stages (debug, release...), check 'Automatically manage signing' & setear tu cuenta
 
 ## Limpiar build anterior (opcional)
 xcodebuild clean -workspace YourProjectName.xcworkspace -scheme YourProjectName -configuration Release
@@ -156,4 +157,4 @@ xcodebuild archive -workspace YourProjectName.xcworkspace -scheme YourProjectNam
 ```
 
 ## Exportar el archivo .ipa
-xcodebuild -exportArchive -archivePath ~/Desktop/YourProjectName.xcarchive -exportOptionsPlist **/path/to/**ExportOptions.plist -exportPath ~/Desktop/**pathExport**
+xcodebuild -exportArchive -archivePath ~/Desktop/opositatestprueba.xcarchive -exportOptionsPlist **/path/to/**ExportOptions.plist -exportPath ~/Desktop/**pathExport**
