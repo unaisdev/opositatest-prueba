@@ -4,9 +4,8 @@ import {FlatList, ListRenderItem, StyleSheet, Text} from 'react-native';
 
 import {Book} from '@type/books';
 
-import {useAppStore} from '@screens/Books/hooks/useAppStore';
-
 import {useSearchText} from '@screens/Books/hooks/useSearchText';
+import {useAppStore} from '@hooks/useAppStore';
 
 type Props = {
   renderItem: ListRenderItem<Book>;

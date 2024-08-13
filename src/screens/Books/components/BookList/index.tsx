@@ -11,9 +11,10 @@ import {EmptyComponent} from '../EmptyListComponent';
 import {useBooksFetch} from '@screens/Books/hooks/useBooksFetch';
 import {useMemo} from 'react';
 import {filterAndSortBooks} from '@utils/books';
-import {useAppStore} from '@screens/Books/hooks/useAppStore';
+
 import {Book} from '@type/books';
 import {useSearchText} from '@screens/Books/hooks/useSearchText';
+import {useAppStore} from '@hooks/useAppStore';
 
 type Props = {
   renderItem: ListRenderItem<Book>;
