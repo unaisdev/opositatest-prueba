@@ -5,15 +5,16 @@ import {ListRenderItem, ScrollView} from 'react-native';
 import {AppLayout} from '@components/AppLayout';
 
 import {styles} from './styles';
-import SearchBar from './components/SearchBar';
+import SearchBar from '../../components/SearchBar';
 import RecentsList from './components/RecentsList';
 import BooksList from './components/BookList';
 import {Book} from '@type/books';
 
-import {useAppStore} from './hooks/useAppStore';
 import {useBookAction} from './hooks/useBookAction';
 import TotalBooks from './components/TotalBooks';
 import BookItem from './components/BookItem';
+import {TopSearchBar} from './components/TopSearchBar';
+import {useAppStore} from '@hooks/useAppStore';
 
 const Books = () => {
   const {favorites} = useAppStore();
@@ -35,7 +36,7 @@ const Books = () => {
   return (
     <AppLayout>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <SearchBar />
+        <TopSearchBar />
         <TotalBooks />
         <RecentsList renderItem={renderItem} />
         <BooksList renderItem={renderItem} />
