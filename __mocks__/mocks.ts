@@ -1,4 +1,4 @@
-import {Book} from '@type/index';
+import {Book} from '@type/books';
 
 export const booksMock: Book[] = [
   {
