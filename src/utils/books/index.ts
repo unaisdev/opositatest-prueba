@@ -1,4 +1,5 @@
-import {Books, SortingEnum} from '@type/index';
+import {Books} from '@type/books';
+import {SortingEnum} from '@type/sorting';
 import {orderAlphabetical} from '@utils/sorting';
 
 export const filterAndSortBooks = ({

@@ -6,7 +6,7 @@ import {render, fireEvent} from '@testing-library/react-native';
 
 import {useSortingTypeStore} from '@storage/sorting/sorting';
 
-import {SortingEnum} from '@type/index';
+import {SortingEnum} from '@type/sorting';
 
 // Mock del hook useSortingTypeStore
 jest.mock('@storage/sorting/sorting', () => ({

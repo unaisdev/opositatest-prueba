@@ -2,7 +2,7 @@ import {useRecentBooksStore} from '@storage/recents';
 import {useCallback} from 'react';
 import {FlatList, ListRenderItem, StyleSheet, Text} from 'react-native';
 
-import {Book} from '@type/index';
+import {Book} from '@type/books';
 
 import {useAppStore} from '@screens/Books/hooks/useAppStore';
 

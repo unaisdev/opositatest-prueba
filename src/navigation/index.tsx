@@ -6,7 +6,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import BookDetail from '@screens/BookDetail';
 import Books from '@screens/Books';
 
-import {RootStackParams} from './types';
+import {RootStackParams} from '@type/navigation';
 
 const Stack = createNativeStackNavigator<RootStackParams>();
 

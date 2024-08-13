@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {Book} from '@type/index';
+import {Book} from '@type/books';
 import {useAppNavigation} from '@navigation/hooks/useAppNavigation';
 
 export function useBookAction() {

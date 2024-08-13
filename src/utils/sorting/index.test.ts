@@ -1,5 +1,5 @@
 // src/utils/orderAlphabetical.test.ts
-import {SortingEnum} from '@type/index';
+import {SortingEnum} from '@type/sorting';
 import {orderAlphabetical} from '.';
 import {booksMock} from '__mocks__/mocks';
 

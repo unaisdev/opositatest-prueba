@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 
-import {Book, Books} from '@type/index';
+import {Book, Books} from '@type/books';
 
 interface FavBooksState {
   favs: Books;

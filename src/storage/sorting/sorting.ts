@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {persist, createJSONStorage} from 'zustand/middleware';
 
-import {SortingEnum} from '@type/index';
+import {SortingEnum} from '@type/sorting';
 import {mmvkStorage} from '.';
 
 interface SortingTypeState {

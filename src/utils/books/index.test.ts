@@ -1,5 +1,6 @@
 import {filterAndSortBooks} from '.';
-import {Book, SortingEnum} from '@type/index';
+import {Book} from '@type/books';
+import {SortingEnum} from '@type/sorting';
 import {booksMock} from '__mocks__/mocks';
 import {orderAlphabetical} from '@utils/sorting';
 

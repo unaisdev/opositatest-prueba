@@ -4,7 +4,7 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 import {useSortingTypeStore} from '@storage/sorting/sorting';
 
-import {SortingEnum} from '@type/index';
+import {SortingEnum} from '@type/sorting';
 import Animated, {useSharedValue, withSpring} from 'react-native-reanimated';
 
 const FONT_SIZE = 12;
