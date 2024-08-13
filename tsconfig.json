@@ -8,6 +8,7 @@
       "@navigation/*": ["src/navigation/*"],
       "@components/*": ["src/components/*"],
       "@screens/*": ["src/screens/*"],
+      "@hooks/*": ["src/hooks/*"],
       "@services/*": ["src/services/*"],
       "@theme/*": ["src/theme/*"],
       "@utils/*": ["src/utils/*"],
