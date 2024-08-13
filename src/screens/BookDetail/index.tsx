@@ -1,16 +1,8 @@
 import React, {useEffect} from 'react';
 
-import {RootStackParams} from '@navigation/types';
 import {RouteProp} from '@react-navigation/native';
 
-import {
-  Image,
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Linking, Text, View} from 'react-native';
 import {AppLayout} from '@components/AppLayout';
 
 import {useAppNavigation} from '@navigation/hooks/useAppNavigation';
@@ -19,8 +11,9 @@ import {useRecentBooksStore} from '@storage/recents';
 import {useBookDetail} from './hooks/useBookDetail';
 
 import {createStyles} from './styles';
-import Animated from 'react-native-reanimated';
+
 import {Button} from '@components/Button';
+import {RootStackParams} from '@type/navigation';
 
 const BookDetail = ({
   route,
