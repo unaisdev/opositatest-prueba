@@ -34,19 +34,39 @@ const BookDetail = ({
 
   const styles = createStyles(isFavorite);
 
+  const authors = book.authors.join(', ');
+  const favText = isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos';
+
   console.log('render detail');
 
   useEffect(() => {
     addRecent(book);
   }, [addRecent, book]);
 
+  const pressFav = () => {
+    toggleFav(book);
+  };
+
+  const goBack = () => {
+    if (appNav.canGoBack()) {
+      appNav.goBack();
+    }
+  };
+
+  const openURL = async () => {
+    const canOpen = await Linking.canOpenURL(book.url);
+
+    if (canOpen) {
+      Linking.openURL(book.url);
+    }
+  };
+
   return (
     <AppLayout>
       <View style={styles.bookDetail}>
         <Text style={styles.bookDetailTitle}>{book.name}</Text>
 
-        <Animated.Image
-          sharedTransitionTag={book.isbn}
+        <Image
           source={{
             uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
           }}
@@ -54,32 +74,20 @@ const BookDetail = ({
           resizeMode={'contain'}
         />
 
-        <Text>Autor: {book.authors.join(', ')}</Text>
+        <Text>Autor: {authors}</Text>
         <Text>Editorial: {book.publisher}</Text>
         <Text>Número de páginas: {book.numberOfPages}</Text>
         <Text>Año de publicación: {book.released}</Text>
 
-        <TouchableOpacity
-          onPress={() => toggleFav(book)}
-          style={styles.favoriteButton}>
-          <Text>
-            {isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-          </Text>
+        <TouchableOpacity onPress={pressFav} style={styles.favoriteButton}>
+          <Text>{favText}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => appNav.goBack()}
-          style={styles.closeButton}>
+        <TouchableOpacity onPress={goBack} style={styles.closeButton}>
           <Text>Cerrar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => {
-            Linking.canOpenURL(book.url).then(() => {
-              Linking.openURL(book.url);
-            });
-          }}
-          style={styles.urlButton}>
+        <TouchableOpacity onPress={openURL} style={styles.urlButton}>
           <Text>Abrir API en el navegador</Text>
         </TouchableOpacity>
       </View>

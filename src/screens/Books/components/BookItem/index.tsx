@@ -3,9 +3,8 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 import {Book} from '@type/index';
-import Animated from 'react-native-reanimated';
 
-export const BookItem = ({
+const BookItem = ({
   book,
   favorite,
   onPress,
@@ -21,8 +20,7 @@ export const BookItem = ({
       onPress={() => onPress(book)}
       key={book.isbn}
       style={styles.bookItem}>
-      <Animated.Image
-        sharedTransitionTag={book.isbn}
+      <Image
         source={{
           uri: `https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`,
         }}
@@ -57,3 +55,5 @@ const createStyles = (fav: boolean) =>
       color: fav ? 'gold' : 'gray',
     },
   });
+
+export default BookItem;
