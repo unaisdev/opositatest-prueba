@@ -68,8 +68,8 @@ Asegúrate de tener instaladas las siguientes herramientas, si no, puedes seguir
 - Android Studio Hedgehog | 2023.1.1 Patch 1 (December 26, 2023)
 - Android SDK 34
 - Xcode (macOS) Version 15.2 (15C500b)
-- Emulador Android
-- Emulador iOS
+
+> Puedes saber qué versiones del entorno tienes mediante: `npx react-native info`
 
 ### 4. Ejecutar la Aplicación en Android
 Conecta un dispositivo Android o abre un emulador.
