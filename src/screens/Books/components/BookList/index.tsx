@@ -6,14 +6,13 @@ import {
   ActivityIndicator,
   FlatList,
   ListRenderItem,
-  FlatListProps,
 } from 'react-native';
 import {EmptyComponent} from '../EmptyListComponent';
 import {useBooksFetch} from '@screens/Books/hooks/useBooksFetch';
-import {useCallback, useMemo} from 'react';
+import {useMemo} from 'react';
 import {filterAndSortBooks} from '@utils/books';
 import {useAppStore} from '@screens/Books/hooks/useAppStore';
-import {Book} from 'src/types';
+import {Book} from '@type/books';
 import {useSearchText} from '@screens/Books/hooks/useSearchText';
 
 type Props = {
@@ -21,13 +20,7 @@ type Props = {
 };
 
 const BooksList = ({renderItem}: Props) => {
-  const {
-    data: books,
-    error,
-    isLoading,
-    isRefetching,
-    refetch,
-  } = useBooksFetch();
+  const {data: books, error, isLoading, isRefetching} = useBooksFetch();
 
   const {debouncedSearchQuery} = useSearchText();
   const {sortingType} = useAppStore();

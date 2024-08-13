@@ -8,7 +8,7 @@ import {styles} from './styles';
 import SearchBar from './components/SearchBar';
 import RecentsList from './components/RecentsList';
 import BooksList from './components/BookList';
-import {Book} from 'src/types';
+import {Book} from '@type/books';
 
 import {useAppStore} from './hooks/useAppStore';
 import {useBookAction} from './hooks/useBookAction';
