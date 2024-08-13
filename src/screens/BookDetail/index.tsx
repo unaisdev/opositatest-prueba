@@ -20,6 +20,7 @@ import {useBookDetail} from './hooks/useBookDetail';
 
 import {createStyles} from './styles';
 import Animated from 'react-native-reanimated';
+import {Button} from '@components/Button';
 
 const BookDetail = ({
   route,
@@ -36,8 +37,6 @@ const BookDetail = ({
 
   const authors = book.authors.join(', ');
   const favText = isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos';
-
-  console.log('render detail');
 
   useEffect(() => {
     addRecent(book);
@@ -79,17 +78,13 @@ const BookDetail = ({
         <Text>Número de páginas: {book.numberOfPages}</Text>
         <Text>Año de publicación: {book.released}</Text>
 
-        <TouchableOpacity onPress={pressFav} style={styles.favoriteButton}>
-          <Text>{favText}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={goBack} style={styles.closeButton}>
-          <Text>Cerrar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={openURL} style={styles.urlButton}>
-          <Text>Abrir API en el navegador</Text>
-        </TouchableOpacity>
+        <Button onPress={pressFav} title={favText} variant="fav" />
+        <Button onPress={goBack} title={'Cerrar'} variant="close" />
+        <Button
+          onPress={openURL}
+          title={'Abrir API en el navegador'}
+          variant="url"
+        />
       </View>
     </AppLayout>
   );

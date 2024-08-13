@@ -24,21 +24,4 @@ export const createStyles = (fav: boolean) =>
       width: '100%',
       height: 200,
     },
-    favoriteButton: {
-      backgroundColor: '#007bff',
-      padding: 10,
-      alignItems: 'center',
-      marginVertical: 10,
-    },
-    closeButton: {
-      backgroundColor: '#ccc',
-      padding: 10,
-      alignItems: 'center',
-    },
-    urlButton: {
-      backgroundColor: '#02874a',
-      padding: 10,
-      alignItems: 'center',
-      marginTop: 10,
-    },
   });
