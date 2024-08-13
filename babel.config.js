@@ -15,7 +15,7 @@ module.exports = {
           '@theme': './src/theme',
           '@utils': './src/utils',
           '@storage': './src/storage',
-          '@type': './src/types/index',
+          '@type': './src/types',
         },
       },
     ],

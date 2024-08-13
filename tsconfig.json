@@ -12,7 +12,7 @@
       "@theme/*": ["src/theme/*"],
       "@utils/*": ["src/utils/*"],
       "@storage/*": ["src/storage/*"],
-      "@type/*": ["src/types/"]
+      "@type/*": ["src/types/*"]
     }
   },
   "types": ["bun-types"]
