@@ -1,11 +1,12 @@
+import {StateStorage} from '@type/zustand';
 import {MMKV} from 'react-native-mmkv';
-import {StateStorage} from 'zustand/middleware';
+import {SORTING_STORAGE_NAME} from 'src/constants/storage';
 
 const storage = new MMKV({
-  id: 'sorting-storage',
+  id: SORTING_STORAGE_NAME,
 });
 
-export const mmvkStorage: StateStorage = {
+export const appStorage: StateStorage = {
   setItem: (key, data) => {
     return storage.set(key, data);
   },
