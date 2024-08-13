@@ -7,7 +7,7 @@ export const filterAndSortBooks = ({
   filter,
   sort,
 }: {
-  books?: Books;
+  books: Books;
   filter: string;
   sort: SortingEnum;
 }) => {
