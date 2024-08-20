@@ -2,62 +2,83 @@ import React from 'react';
 
 import {Sorting} from '.';
 
-import {render, fireEvent} from '@testing-library/react-native';
-
+import {render, fireEvent, screen, act} from '@testing-library/react-native';
 import {useSortingTypeStore} from '@storage/sorting/sorting';
-
 import {SortingEnum} from '@type/sorting';
 
 // Mock del hook useSortingTypeStore
-jest.mock('@storage/sorting/sorting', () => ({
-  useSortingTypeStore: jest.fn(),
-}));
+// jest.mock('@storage/sorting/sorting', () => ({
+//   useSortingTypeStore: jest.fn(),
+// }));
+
+const defaultText = 'Ordenar Predeterminado';
+const alphabeticallText = 'Ordenar Alfabeticamente';
 
 describe('Sorting component', () => {
-  const mockSetSortingType = jest.fn();
-  const mockUseSortingTypeStore = useSortingTypeStore as unknown as jest.Mock;
-
   beforeEach(() => {
-    mockUseSortingTypeStore.mockImplementation(() => ({
-      sortingType: SortingEnum.DEFAULT,
-      setSortingType: mockSetSortingType,
-    }));
-  });
-
-  afterEach(() => {
     jest.clearAllMocks();
+    useSortingTypeStore.getState().clear();
   });
 
   it('should render correctly with default sorting type', () => {
-    const {getByText} = render(<Sorting />);
-    expect(getByText('Ordenar Alfabeticamente')).toBeTruthy();
+    render(<Sorting />);
+
+    const button = screen.getByText(defaultText);
+
+    expect(button).toBeTruthy();
   });
 
-  it('should toggle sorting type when button is pressed', () => {
+  it('toggle sorting type when button is pressed', () => {
     // Renderiza el componente
-    const {getByText, rerender} = render(<Sorting />);
+    render(<Sorting />);
 
-    const button = getByText('Ordenar Alfabeticamente');
+    expect(screen.getByText(defaultText)).toBeTruthy();
 
     // Simula la pulsación del botón
-    fireEvent.press(button);
+    act(() => {
+      fireEvent.press(screen.getByText(defaultText));
+    });
 
-    // Verifica que se ha llamado a setSortingType con el valor ALPHABETICAL
-    expect(mockSetSortingType).toHaveBeenCalledWith(SortingEnum.ALPHABETICAL);
+    const buttonAlphabeticall = screen.queryByText(alphabeticallText);
+    const defaultButton = screen.queryByText(defaultText);
 
-    // Cambia el mock para simular el estado cambiado
-    mockUseSortingTypeStore.mockImplementationOnce(() => ({
-      sortingType: SortingEnum.ALPHABETICAL,
-      setSortingType: mockSetSortingType,
-    }));
+    expect(buttonAlphabeticall).toBeTruthy();
+    expect(defaultButton).toBeFalsy();
+  });
 
-    // Re-renderiza el componente para reflejar el nuevo estado
-    rerender(<Sorting />);
+  it('setSortingType is being called when default', () => {
+    const store = useSortingTypeStore.getState();
+    const spyFn = jest.spyOn(store, 'setSortingType');
 
-    // Simula la pulsación del botón otra vez
-    fireEvent.press(button);
+    render(<Sorting />);
 
-    // Verifica que se ha llamado a setSortingType con el valor DEFAULT
-    expect(mockSetSortingType).toHaveBeenCalledWith(SortingEnum.DEFAULT);
+    const button = screen.getByText(defaultText);
+
+    act(() => {
+      fireEvent.press(button);
+    });
+
+    expect(spyFn).toHaveBeenCalledTimes(1);
+    expect(spyFn).toHaveBeenCalledWith(SortingEnum.ALPHABETICAL);
+  });
+
+  it('setSortingType is being called when alphabetical', () => {
+    const store = useSortingTypeStore.getState();
+    const spyFn = jest.spyOn(store, 'setSortingType');
+
+    render(<Sorting />);
+
+    act(() => {
+      fireEvent.press(screen.getByText(defaultText));
+    });
+
+    expect(screen.getByText(alphabeticallText)).toBeTruthy();
+
+    act(() => {
+      fireEvent.press(screen.getByText(alphabeticallText));
+    });
+
+    expect(spyFn).toHaveBeenCalledTimes(2);
+    expect(spyFn).toHaveBeenCalledWith(SortingEnum.DEFAULT);
   });
 });
