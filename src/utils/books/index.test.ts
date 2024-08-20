@@ -1,80 +1,94 @@
 import {filterAndSortBooks} from '.';
-import {Book} from '@type/books';
+
 import {SortingEnum} from '@type/sorting';
 import {booksMock} from '__mocks__/mocks';
-import {orderAlphabetical} from '@utils/sorting';
-
-// Mock de la función orderAlphabetical
-jest.mock('@utils/sorting', () => ({
-  orderAlphabetical: jest.fn(),
-}));
 
 describe('filterAndSortBooks', () => {
-  const mockOrderAlphabetical = orderAlphabetical as jest.Mock;
-
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should return an empty array if no books are provided', () => {
+  it('return an empty array if no books are provided', () => {
     const result = filterAndSortBooks({
-      books: undefined,
-      filter: 'some filter',
+      books: [],
+      filter: '',
       sort: SortingEnum.DEFAULT,
     });
+
     expect(result).toEqual([]);
   });
 
-  it('should filter books by the given filter', () => {
+  it('filter books by the given filter', () => {
+    const result = filterAndSortBooks({
+      books: booksMock,
+      filter: 'Zorro',
+      sort: SortingEnum.DEFAULT,
+    });
+
+    expect(result).toEqual([booksMock[0]]); // Solo "El Secreto de la Manzana Dorada" debe coincidir
+    expect(result).toHaveLength(1);
+  });
+
+  it('filters books by the given filter, if they are 2 equal books', () => {
     const result = filterAndSortBooks({
       books: booksMock,
       filter: 'Secreto',
       sort: SortingEnum.DEFAULT,
     });
-    expect(result).toEqual([booksMock[1]]); // Solo "El Secreto de la Manzana Dorada" debe coincidir
+
+    expect(result).toEqual([booksMock[1], booksMock[2]]); // Solo "El Secreto de la Manzana Dorada" debe coincidir
+    expect(result).toHaveLength(2);
   });
 
-  it('should return books in alphabetical order if sorting by ALPHABETICAL', () => {
-    const filteredBooks = booksMock;
+  it('return books in default order', () => {
+    const result = filterAndSortBooks({
+      books: booksMock,
+      filter: '',
+      sort: SortingEnum.DEFAULT,
+    });
 
-    mockOrderAlphabetical.mockImplementation(filtered =>
-      filtered.sort((a: Book, b: Book) => a.name.localeCompare(b.name)),
-    );
+    expect(result).toEqual(booksMock);
+  });
+
+  it('return books in default order and filtered', () => {
+    const filteredBooks = [booksMock[1], booksMock[2]];
 
     const result = filterAndSortBooks({
-      books: filteredBooks,
+      books: booksMock,
+      filter: 'Secreto',
+      sort: SortingEnum.DEFAULT,
+    });
+
+    expect(result).toEqual(filteredBooks);
+  });
+
+  it('return books in alphabetical order', () => {
+    const result = filterAndSortBooks({
+      books: booksMock,
       filter: '',
       sort: SortingEnum.ALPHABETICAL,
     });
 
-    // expect(orderAlphabetical).toHaveBeenCalledWith(
-    //   filteredBooks,
-    //   SortingEnum.ALPHABETICAL,
-    // );
-
-    expect(result).toEqual([
-      booksMock[2], // Cuentos de la Naranja Espléndida
+    const expectedResult = [
+      booksMock[3], // Cuentos de la Naranja Espléndida
+      booksMock[2], // El Secreto de la Manzana Dorada
       booksMock[1], // El Secreto de la Manzana Dorada
       booksMock[0], // El Zorro: El Regreso del Justiciero
-    ]);
+    ];
+
+    expect(result).toEqual(expectedResult);
+    expect(result).toHaveLength(expectedResult.length);
   });
 
-  it('should return books filtered by the filter and sorted alphabetically if sorting by ALPHABETICAL', () => {
-    const filteredBooks = [booksMock[1]]; // Solo "El Secreto de la Manzana Dorada" debería estar en la lista filtrada
-
-    mockOrderAlphabetical.mockImplementation(filtered =>
-      filtered.sort((a: Book, b: Book) => a.name.localeCompare(b.name)),
-    );
+  it('return books filtered and sorted alphabetically', () => {
+    const filteredBooks = [booksMock[1], booksMock[2]]; // Solo "El Secreto de la Manzana Dorada" debería estar en la lista filtrada
 
     const result = filterAndSortBooks({
       books: booksMock,
       filter: 'Manzana',
       sort: SortingEnum.ALPHABETICAL,
     });
-    expect(mockOrderAlphabetical).toHaveBeenCalledWith(
-      filteredBooks,
-      SortingEnum.ALPHABETICAL,
-    );
+
     expect(result).toEqual(filteredBooks);
   });
 });
